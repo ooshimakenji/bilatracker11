@@ -46,3 +46,21 @@ a {
 }
 
 
+
+/* Responsiveness */
+@media (max-width: 600px) {
+    body {
+        max-width: 100%;
+    }
+    button {
+        display: block;
+        width: 100%;
+        margin-top: 5px;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+    body {
+        max-width: 600px;
+    }
+}
