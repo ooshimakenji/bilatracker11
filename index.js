@@ -19,17 +19,16 @@ const ulEl = document.getElementById("ul-el")
 const deleteBtn = document.getElementById("delete-btn")
 
 function render(leads) {
-    let listItems = ""
+    ulEl.innerHTML = ""
     for (let i = 0; i < leads.length; i++) {
-        listItems += `
-            <li>
-                <a target='_blank' href='${leads[i]}'>
-                    ${leads[i]}
-                </a>
-            </li>
-        `
+        const li = document.createElement("li")
+        const a = document.createElement("a")
+        a.target = "_blank"
+        a.href = leads[i]
+        a.textContent = leads[i]
+        li.appendChild(a)
+        ulEl.appendChild(li)
     }
-    ulEl.innerHTML = listItems
 }
 
 onValue(referenceInDB, function(snapshot) {
@@ -39,6 +38,8 @@ onValue(referenceInDB, function(snapshot) {
         const leads = Object.values(snapshotValues)
         render(leads)
     }
+}, function(error) {
+    console.error("Firebase read failed:", error)
 })
 
 deleteBtn.addEventListener("dblclick", function() {
@@ -47,6 +48,9 @@ deleteBtn.addEventListener("dblclick", function() {
 })
 
 inputBtn.addEventListener("click", function() {
-    push(referenceInDB, inputEl.value)
-    inputEl.value = "" 
+    const value = inputEl.value.trim()
+    if (value) {
+        push(referenceInDB, value)
+        inputEl.value = ""
+    }
 })
